@@ -1,0 +1,63 @@
+package kemalkeskin.productDemo.webApi;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import kemalkeskin.productDemo.business.abstracts.ProductService;
+import kemalkeskin.productDemo.business.requests.product.CreateProductRequest;
+import kemalkeskin.productDemo.business.requests.product.ProductUpdateRequest;
+import kemalkeskin.productDemo.business.responses.product.ProductListResponse;
+import kemalkeskin.productDemo.business.responses.product.ProductResponse;
+import lombok.AllArgsConstructor;
+
+@RestController
+@RequestMapping("/api/products")
+@AllArgsConstructor
+public class ProductsController {
+
+	private ProductService productService;
+	
+	@GetMapping
+	public List<ProductListResponse>getAll(){
+		return productService.getAll();
+	}
+	
+	@GetMapping("/{id}")
+	public ProductResponse getById (@PathVariable int id){
+		return this.productService.getById(id);
+	}
+	
+	@PostMapping
+	public ProductResponse add(@RequestBody CreateProductRequest createProductRequest) {
+		return this.productService.add(createProductRequest);
+	}
+
+	@DeleteMapping
+	public void delete(int id) {
+		this.productService.delete(id);
+	}
+	
+	@PutMapping
+	public ProductResponse update(@RequestBody ProductUpdateRequest productUpdateRequest ,@RequestParam int id) {
+		return this.productService.update(productUpdateRequest, id);
+	}
+
+	@GetMapping("getbyproductname")
+	public ProductResponse getByProductName(@RequestParam String productName) {
+		return this.productService.getByProductName(productName);
+	}
+	
+	@GetMapping("getbyproductnameorcategory")
+	public ProductResponse getByProductNameOrCategory_categoryId(@RequestParam String productName, @RequestParam int categoryId) {
+		return this.productService.getByProductNameOrCategory_categoryId(productName, categoryId);
+	}
+}

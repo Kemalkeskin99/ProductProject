@@ -1,0 +1,5 @@
+package kemalkeskin.productDemo.business.concretes;
+
+public class ProductManager {
+
+}
